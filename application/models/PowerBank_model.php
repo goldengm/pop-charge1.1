@@ -8,13 +8,13 @@ class PowerBank_model extends CI_Model {
     }
 
 	public function insert($data) { 
-		if ($this->db->insert("power_banks", $data)) { 
+		if ($this->db->insert("powerBanks", $data)) { 
 			return true; 
 		} 
     } 
 
     public function delete($powerBankNo) {
-    	if ($this->db->delete('power_banks', 'power_bank_no='.$powerBankNo)) {
+    	if ($this->db->delete('powerBanks', 'powerBankNo='.$powerBankNo)) {
     		return true;
     	}
     }

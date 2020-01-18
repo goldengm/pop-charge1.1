@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Station_model extends CI_Model {
+class PowerBank_model extends CI_Model {
 	
 	function __construct()
     {
@@ -8,13 +8,13 @@ class Station_model extends CI_Model {
     }
 
 	public function insert($data) { 
-		if ($this->db->insert("stations", $data)) { 
+		if ($this->db->insert("power_bank_logs", $data)) { 
 			return true; 
 		} 
     } 
 
-    public function delete($stationNo) {
-    	if ($this->db->delete('stations', 'stationNo='.$stationNo)) {
+    public function delete($powerBankNo) {
+    	if ($this->db->delete('power_bank_logs', 'power_bank_no='.$powerBankNo)) {
     		return true;
     	}
     }
