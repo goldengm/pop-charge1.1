@@ -33,5 +33,22 @@ class Lend extends CI_Controller {
 		}
 	}
 
+	public function checkDoneLend() {
+		$input = json_decode(file_get_contents('php://input'),true); 
+		$curTradeNo = $input['tradeNo'];
+
+		$query = $this->db->query('SELECT * FROM powerBanks WHERE curTradeNo=?', [$curTradeNo]);
+		$row = $query->row_array();
+		if (isset($row)) {
+			if (time() - strtotime($row['lendDate']) < 15 * 60) {
+				echo json_encode(['result'=>true]);
+				return;
+			}
+			echo json_encode(['result'=>false]);
+		} else {
+			echo json_encode(['result'=>false]);
+		}		
+	}
+
 	
 }

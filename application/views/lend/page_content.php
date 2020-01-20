@@ -65,12 +65,13 @@ app.controller('lendController', function($scope, $http) {
 				]
 			}
 		}
-		$http.post('http://ec2-107-23-0-117.compute-1.amazonaws.com/app-server/index.php/simulator/cabinetInfo', requestData).then(function(response) {
+		$http.post('http://localhost:8012/pop-charge/simulator/cabinetInfo', requestData).then(function(response) {
 			var data = response.data;
 			$scope.pageStatus = 'loaded';
 			$scope.slots = data.body[0].list;
 		})
 	}	
+	var intervalCheck = null;
 	$scope.lend = function(slotNum){
 		if (confirm('Are you sure to lend this battery?')){
 			var requestData = {
@@ -79,15 +80,28 @@ app.controller('lendController', function($scope, $http) {
 					"stationSn": "<?php echo $stationSn?>",
 					"tradeNo": "123456",
 					"slotNum": slotNum,
-					"url": "http://ec2-107-23-0-117.compute-1.amazonaws.com/app-server/index.php/lend/doLend",
+					"url": "http://localhost:8012/pop-charge/lend/doLend",
 					"timeout": 60
 				}
 			}
-			$http.post('http://ec2-107-23-0-117.compute-1.amazonaws.com/app-server/index.php/simulator/lend', requestData).then(function(response) {
+			$http.post('http://localhost:8012/pop-charge/simulator/lend', requestData).then(function(response) {
+				intervalCheck = setInterval(function() {
+					checkDoneLend('123456');
+				}, 800);
 			})
 			return true;
 		}
 		return false;
+	}
+	
+	function checkDoneLend(tradeNo) {
+		console.log(tradeNo);
+		$http.post('http://localhost:8012/pop-charge/lend/checkDoneLend', {tradeNo}).then(function(response) {
+			if (response.data.result) {
+				clearInterval(intervalCheck);
+				window.location.href='http://localhost:8012/pop-charge';
+			}
+		})
 	}
 })
 </script>
