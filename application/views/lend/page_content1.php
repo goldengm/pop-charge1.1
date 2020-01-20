@@ -65,7 +65,7 @@ app.controller('lendController', function($scope, $http) {
 				]
 			}
 		}
-		$http.post('http://ec2-107-23-0-117.compute-1.amazonaws.com/app-server/index.php/simulator/cabinetInfo', requestData).then(function(response) {
+		$http.post('http://localhost:8012/pop-charge/simulator/cabinetInfo', requestData).then(function(response) {
 			var data = response.data;
 			$scope.pageStatus = 'loaded';
 			$scope.slots = data.body[0].list;
@@ -79,11 +79,11 @@ app.controller('lendController', function($scope, $http) {
 					"stationSn": "<?php echo $stationSn?>",
 					"tradeNo": "123456",
 					"slotNum": slotNum,
-					"url": "http://ec2-107-23-0-117.compute-1.amazonaws.com/app-server/index.php/lend/doLend",
+					"url": "http://localhost:8012/pop-charge/lend/doLend",
 					"timeout": 60
 				}
 			}
-			$http.post('http://ec2-107-23-0-117.compute-1.amazonaws.com/app-server/index.php/simulator/lend', requestData).then(function(response) {
+			$http.post('http://localhost:8012/pop-charge/simulator/lend', requestData).then(function(response) {
 			})
 			return true;
 		}
