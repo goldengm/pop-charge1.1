@@ -27,7 +27,7 @@
 						<th>Power Bank No.</th>
 						<th>Electric Quantity</th>
 						<th>Lend</th>
-					</tr>						
+					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="row in slots">
@@ -46,7 +46,13 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>		
+		</div>
+		<div class="form-group" ng-if="pageStatus=='lending'">
+			<div class="form-row">
+				<div class="loader-description">Lending... Please wait.</div>
+				<div class="loader"></div>
+			</div>			
+		</div>
 	</form>
 	
 </div>
@@ -84,10 +90,14 @@ app.controller('lendController', function($scope, $http) {
 					"timeout": 60
 				}
 			}
+			$scope.pageStatus='lending';
 			$http.post('http://localhost:8012/pop-charge/simulator/lend', requestData).then(function(response) {
 				intervalCheck = setInterval(function() {
 					checkDoneLend('123456');
-				}, 800);
+				}, 2000);
+				$scope.pageStatus='lending';
+			}, function() {
+				$scope.pageStatus='lending';
 			})
 			return true;
 		}
@@ -95,11 +105,10 @@ app.controller('lendController', function($scope, $http) {
 	}
 	
 	function checkDoneLend(tradeNo) {
-		console.log(tradeNo);
 		$http.post('http://localhost:8012/pop-charge/lend/checkDoneLend', {tradeNo}).then(function(response) {
 			if (response.data.result) {
 				clearInterval(intervalCheck);
-				window.location.href='http://localhost:8012/pop-charge';
+				window.location.href='http://localhost:8012/pop-charge/lend/thankyou';
 			}
 		})
 	}

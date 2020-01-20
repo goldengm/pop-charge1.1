@@ -50,5 +50,9 @@ class Lend extends CI_Controller {
 		}		
 	}
 
-	
+	public function thankyou() {
+		$this->load->view('layouts/header', ['title' => 'You have lent one battery.']);
+		$this->load->view('lend/thankyou');
+		$this->load->view('layouts/footer');
+	}
 }
