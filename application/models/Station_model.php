@@ -7,7 +7,7 @@ class Station_model extends CI_Model {
         parent::__construct();
     }
 
-	public function insert($data) { 
+	public function insert($stationNo, $data) { 
 		if ($this->db->insert("stations", $data)) { 
 			return true; 
 		} 

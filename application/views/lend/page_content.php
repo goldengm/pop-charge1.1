@@ -38,7 +38,7 @@
 							<span class="text-success">{{row.electricQuantity}}</span>
 						</td>
 						<td ng-if="row.powerBankSn!='NULL'">
-							<button type="button" class="btn btn-sm btn-primary">Lend</button>
+							<button type="button" class="btn btn-sm btn-primary" ng-click="lend(row.slotNum)">Lend</button>
 						</td>
 						<td ng-if="row.powerBankSn=='NULL'" colspan="3">
 							<span class="text-danger">{{row.slotNum}}. ---Empty---</span>
@@ -71,6 +71,24 @@ app.controller('lendController', function($scope, $http) {
 			$scope.slots = data.body[0].list;
 		})
 	}	
+	$scope.lend = function(slotNum){
+		if (confirm('Are you sure to lend this battery?')){
+			var requestData = {
+				"sign": "<?php echo $sign?>",
+				"body": {
+					"stationSn": "<?php echo $stationSn?>",
+					"tradeNo": "123456",
+					"slotNum": slotNum,
+					"url": "http://localhost:8012/pop-charge/lend/doLend",
+					"timeout": 60
+				}
+			}
+			$http.post('http://localhost:8012/pop-charge/simulator/lend', requestData).then(function(response) {
+			})
+			return true;
+		}
+		return false;
+	}
 })
 </script>
 

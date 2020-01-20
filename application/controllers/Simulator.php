@@ -41,5 +41,36 @@ class Simulator extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function lend() {
+		$input = json_decode(file_get_contents('php://input'),true); 
+		$sign = $input['sign'];
+		$stationNo = $input['body']['stationSn'];
+		$tradeNo = $input['body']['tradeNo'];
+		$slotNum = $input['body']['slotNum'];
+		$url = $input['body']['url'];
+        $data = [
+			'code'=>200, 
+			'body'=>[
+				'tradeNo'=>$tradeNo,
+				'powerBankSn'=>'R21432432',
+				'slotNum'=>$slotNum,
+				'msg'=>'0'
+			]
+		];
+
+		$data_string = json_encode($data);
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(    
+			'Content-Type: application/json',
+			'Content-Length: ' . strlen($data_string))
+		);
+		$result = curl_exec($ch);
+		
+		echo json_encode(['msg'=>'0','code'=>'200']);
+	}
+
 
 }

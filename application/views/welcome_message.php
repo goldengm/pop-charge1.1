@@ -68,13 +68,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 
 <div id="container">
-	<h1>Welcome to Pop-Charge Mobile App!</h1>
+	<h1>Well done!</h1>
 
 	<div id="body">
-		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
+		<p>Thank you for using our pop-charge service! Your request has sent well!</p>
 	</div>
 
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. 
+	<p class="footer"></p>
 </div>
 
 </body>
